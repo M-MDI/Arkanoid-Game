@@ -31,6 +31,7 @@ function createBricks(rows, cols) {
     const spacing = 10;
     const offsetX = 30;
     const offsetY = 50;
+    const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
 
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
@@ -39,6 +40,7 @@ function createBricks(rows, cols) {
             brick.classList.add('brick');
             brick.style.top = `${offsetY + row * (brickHeight + spacing)}px`;
             brick.style.left = `${offsetX + col * (brickWidth + spacing)}px`;
+            brick.style.backgroundColor = colors[row % colors.length];
             game.appendChild(brick);
         }
     }
@@ -105,5 +107,74 @@ function gameLoop() {
 
 showPopup('Click OK to start the game!', gameLoop);
 
-
+const style = document.createElement('style');
+style.innerHTML = `
+    body {
+        background-color: black;
+        font-family: Arial, sans-serif;
+    }
+    #game {
+        position: relative;
+        width: 600px;
+        height: 400px;
+        margin: auto;
+        background-color: #222;
+        border: 5px solid white;
+        overflow: hidden;
+    }
+    #paddle {
+        position: absolute;
+        bottom: 10px;
+        width: 100px;
+        height: 10px;
+        background-color: white;
+    }
+    #ball {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        border-radius: 50%;
+    }
+    .brick {
+        position: absolute;
+        width: 60px;
+        height: 20px;
+        border: 2px solid white;
+    }
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+    }
+    .popup button {
+        margin-top: 10px;
+        padding: 10px;
+        border: none;
+        background: orange;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .popup button:hover {
+        background: darkorange;
+    }
+    #logo {
+        display: block;
+        margin: auto;
+        width: 150px;
+    }
+`;
 document.head.appendChild(style);
+
+const logo = document.createElement('img');
+logo.src = 'logo.png';
+logo.id = 'logo';
+document.body.insertBefore(logo, document.body.firstChild);
