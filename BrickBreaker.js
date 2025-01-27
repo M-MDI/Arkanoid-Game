@@ -4,28 +4,37 @@ const ball = document.getElementById('ball');
 
 let ballX = 300;
 let ballY = 200;
-let ballDX = 2; // Ball speed X
-let ballDY = 2; // Ball speed Y
+let ballDX = 2;
+let ballDY = 2;
 let paddleX = (game.clientWidth - paddle.clientWidth) / 2;
 const paddleWidth = 100;
 
 let keys = {};
 
-// Listen for key events
 document.addEventListener('keydown', (e) => keys[e.key] = true);
 document.addEventListener('keyup', (e) => keys[e.key] = false);
 
-// Create Bricks
+function showPopup(message, callback) {
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    popup.innerHTML = `<p>${message}</p><button id='popup-btn'>OK</button>`;
+    document.body.appendChild(popup);
+    document.getElementById('popup-btn').addEventListener('click', () => {
+        popup.remove();
+        if (callback) callback();
+    });
+}
+
 function createBricks(rows, cols) {
     const brickWidth = 60;
     const brickHeight = 20;
     const spacing = 10;
     const offsetX = 30;
-    const offsetY = 20;
+    const offsetY = 50;
 
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
-            if (row * cols + col >= 35) return; // Stop at 25 bricks
+            if (row * cols + col >= 30) return;
             const brick = document.createElement('div');
             brick.classList.add('brick');
             brick.style.top = `${offsetY + row * (brickHeight + spacing)}px`;
@@ -35,9 +44,8 @@ function createBricks(rows, cols) {
     }
 }
 
-createBricks(6, 5); // Creates a 5x5 grid (25 bricks)
+createBricks(5, 6);
 
-// Main Game Loop
 function gameLoop() {
     if (keys['ArrowLeft'] && paddleX > 0) {
         paddleX -= 5;
@@ -53,7 +61,6 @@ function gameLoop() {
     if (ballX <= 0 || ballX >= game.clientWidth - ball.clientWidth) ballDX *= -1;
     if (ballY <= 0) ballDY *= -1;
 
-    // Ball-Paddle Collision
     if (
         ballY + ball.clientHeight >= game.clientHeight - paddle.clientHeight &&
         ballX + ball.clientWidth >= paddleX &&
@@ -62,18 +69,15 @@ function gameLoop() {
         let paddleCenter = paddleX + paddleWidth / 2;
         let ballCenter = ballX + ball.clientWidth / 2;
         let bounceAngle = (ballCenter - paddleCenter) / (paddleWidth / 2);
-        ballDX = bounceAngle * 5;
+        ballDX = bounceAngle * 4;
         ballDY *= -1;
     }
 
-    // Game Over Condition
     if (ballY > game.clientHeight) {
-        alert('Game Over!');
-        setTimeout(() => location.reload(), 1000);
+        showPopup('Game Over!', () => location.reload());
         return;
     }
 
-    // Brick Collision
     document.querySelectorAll('.brick').forEach((brick) => {
         const rect = brick.getBoundingClientRect();
         const ballRect = ball.getBoundingClientRect();
@@ -88,10 +92,8 @@ function gameLoop() {
         }
     });
 
-    // Check if all bricks are cleared (Win Condition)
     if (document.querySelectorAll('.brick').length === 0) {
-        alert('You Win!');
-        setTimeout(() => location.reload(), 1000);
+        showPopup('You Win!', () => location.reload());
         return;
     }
 
@@ -101,5 +103,7 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
-// Start the game
-gameLoop();
+showPopup('Click OK to start the game!', gameLoop);
+
+
+document.head.appendChild(style);
