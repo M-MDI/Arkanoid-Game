@@ -38,7 +38,7 @@ body {
     border: 1px solid #000000;
 }
 
-/* Different colors for brick rows */
+
 .brick:nth-child(4n) { background-color: #ff0000; }  /* Red */
 .brick:nth-child(4n+1) { background-color: #00ff00; }  /* Green */
 .brick:nth-child(4n+2) { background-color: #ffff00; }  /* Yellow */
