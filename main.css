@@ -1,0 +1,220 @@
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: black;
+  font-family: "Press Start 2P", "Courier New", monospace;
+}
+
+.game-container {
+  position: relative;
+  width: 95vw;
+  max-width: 1400px;
+  height: 90vh;
+  max-height: 800px;
+  margin: auto;
+}
+
+#game-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  border: 2px solid #36f;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 320px;
+  min-height: 480px;
+}
+
+/* Common menu/modal styling */
+#menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.content,
+.pause-content,
+.modal-content {
+  background-color: #000;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: 8px;
+  text-align: center;
+  border: 2px solid #36f;
+  box-shadow: 0 0 20px #36f;
+  width: clamp(280px, 50vw, 400px);
+  margin: 20px;
+}
+
+/* Common heading styles */
+.content h2,
+.pause-content h2 {
+  color: #f00;
+  margin-bottom: 1.5rem;
+  font-size: clamp(24px, 4vw, 30px);
+  text-shadow: 0 0 5px #f009, 0 0 10px #f006;
+  letter-spacing: 2px;
+}
+
+/* Common paragraph styles */
+.content p,
+.pause-content p {
+  color: #fff;
+  margin-bottom: 1.5rem;
+  font-size: clamp(16px, 3vw, 18px);
+}
+
+/* Common button styles */
+button {
+  padding: clamp(8px, 2vw, 12px) clamp(16px, 4vw, 24px);
+  background-color: #36f;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: clamp(14px, 2.5vw, 16px);
+  margin: clamp(5px, 1.5vw, 10px);
+  min-width: clamp(100px, 20vw, 120px);
+  transition: all 0.2s;
+  box-shadow: 0 0 8px #36f;
+}
+
+button:hover {
+  background-color: #f00;
+  box-shadow: 0 0 15px #f00;
+  transform: scale(1.05);
+}
+
+#game-state {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  color: #fff;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: clamp(14px, 2vw + 6px, 20px);
+  position: absolute;
+  width: calc(100% - 60px);
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-bottom: 2px solid #36f;
+}
+
+#paddle {
+  position: absolute;
+  bottom: 20px;
+  width: clamp(60px, calc(12vw + 20px), 180px);
+  height: clamp(10px, 2vh, 20px);
+  background: linear-gradient(to bottom, #ccc, #999, #666);
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(102, 204, 255, 0.7);
+  transform-origin: center;
+  will-change: transform;
+  transform: translateX(0);
+  /* Arkanoid Vaus style */
+  border: 2px solid #fff;
+}
+
+/* Vaus side capsules */
+#paddle::before,
+#paddle::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  width: 20%;
+  height: 100%;
+  background: #f00;
+  border: 2px solid #fff;
+  box-sizing: content-box;
+}
+
+#paddle::before {
+  left: -2px;
+  border-radius: 12px 0 0 12px;
+}
+
+#paddle::after {
+  right: -2px;
+  border-radius: 0 12px 12px 0;
+}
+
+#ball {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, #fff, #ddd);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  will-change: transform;
+  transform: translate(0, 0);
+}
+
+.brick {
+  position: absolute;
+  height: clamp(15px, calc(2.5vh + 5px), 40px);
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  transition: width 0.3s, height 0.3s;
+}
+
+/* Brick color classes */
+.brick-row-0 {
+  background-color: #f00;
+} /* Red */
+.brick-row-1 {
+  background-color: #ff8c00;
+} /* Orange */
+.brick-row-2 {
+  background-color: #0f0;
+} /* Green */
+.brick-row-3 {
+  background-color: #0ff;
+} /* Cyan */
+.brick-row-4 {
+  background-color: #f0f;
+} /* Magenta */
+.brick-row-5 {
+  background-color: #ff0;
+} /* Yellow */
+.brick-row-6 {
+  background-color: #fff;
+} /* White */
+
+#game-over-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+#pause-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+/* Add classic arcade font - this will be added if the font is available */
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
