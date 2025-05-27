@@ -70,6 +70,4 @@ A classic brick breaker game built with vanilla JavaScript.
 - Start menu
 
 ### Autors:
-- Ismail Bentour
-- Mehdi Moulabbi
-- Safae Beytour 
+- Mehdi / M-MDI
